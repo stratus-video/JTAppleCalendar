@@ -132,7 +132,7 @@ extension JTAppleCalendarView {
         for headerViewXibName in xibFileNames {
             registeredHeaderViews.append(JTAppleCalendarViewSource.fromXib(headerViewXibName, bundle))
             calendarView.register(JTAppleCollectionReusableView.self,
-                                       forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
+                                       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                        withReuseIdentifier: headerViewXibName)
         }
     }
@@ -148,7 +148,7 @@ extension JTAppleCalendarView {
         for headerViewClassName in classStringNames {
             registeredHeaderViews.append(JTAppleCalendarViewSource.fromClassName(headerViewClassName, bundle))
             calendarView.register(JTAppleCollectionReusableView.self,
-                                  forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
+                                  forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                   withReuseIdentifier: headerViewClassName)
         }
     }
@@ -162,7 +162,7 @@ extension JTAppleCalendarView {
         for aClass in classTypeNames {
             registeredHeaderViews.append(JTAppleCalendarViewSource.fromType(aClass))
             calendarView.register(JTAppleCollectionReusableView.self,
-                                  forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
+                                  forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                   withReuseIdentifier: aClass.description()
             )
         }
@@ -475,7 +475,7 @@ extension JTAppleCalendarView {
     public func scrollToDate(_ date: Date,
                              triggerScrollToDateDelegate: Bool = true,
                              animateScroll: Bool = true,
-                             preferredScrollPosition: UICollectionViewScrollPosition? = nil,
+                             preferredScrollPosition: UICollectionView.ScrollPosition? = nil,
                              completionHandler: (() -> Void)? = nil) {
         if !calendarIsAlreadyLoaded {
             delayedExecutionClosure.append {[unowned self] in
@@ -495,7 +495,7 @@ extension JTAppleCalendarView {
                           indexPath: IndexPath? = nil,
                           triggerScrollToDateDelegate: Bool = true,
                           isAnimationEnabled: Bool,
-                          position: UICollectionViewScrollPosition? = .left,
+                          position: UICollectionView.ScrollPosition? = .left,
                           completionHandler: (() -> Void)?) {
             
             if scrollInProgress {
@@ -539,7 +539,7 @@ extension JTAppleCalendarView {
         let retrievedPathsFromDates = pathsFromDates([date])
         guard !retrievedPathsFromDates.isEmpty else { return }
         let sectionIndexPath =  pathsFromDates([date])[0]
-        var position: UICollectionViewScrollPosition = scrollDirection == .horizontal ? .left : .top
+        var position: UICollectionView.ScrollPosition = scrollDirection == .horizontal ? .left : .top
         if !scrollingMode.pagingIsEnabled() {
             if let validPosition = preferredScrollPosition {
                 if scrollDirection == .horizontal {

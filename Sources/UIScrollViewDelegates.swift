@@ -52,7 +52,7 @@ extension JTAppleCalendarView: UIScrollViewDelegate {
         }
         if directionVelocity == 0.0 {
             calendarView.decelerationRate =
-                UIScrollViewDecelerationRateFast
+                UIScrollView.DecelerationRate.fast
         }
 
         let setTargetContentOffset = {
@@ -180,7 +180,7 @@ extension JTAppleCalendarView: UIScrollViewDelegate {
                             calculatedOffSet = attrib.frame.origin.y
                         }
                     } else if thereAreHeaders,
-                        let attrib = calendarView.layoutAttributesForSupplementaryElement(ofKind: UICollectionElementKindSectionHeader, at: attribPath) {
+                        let attrib = calendarView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: attribPath) {
                         // change the final value to the end of the header
                         if isScrollingForward() {
                             calculatedOffSet = attrib.frame.origin.y + attrib.frame.size.height
