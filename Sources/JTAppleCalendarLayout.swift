@@ -11,7 +11,7 @@ open class JTAppleCalendarLayout: UICollectionViewLayout, JTAppleCalendarLayoutP
     let errorDelta: CGFloat = 0.0000001
     var itemSize: CGSize = CGSize.zero
     var headerReferenceSize: CGSize = CGSize.zero
-    var scrollDirection: UICollectionViewScrollDirection = .horizontal
+    var scrollDirection: UICollectionView.ScrollDirection = .horizontal
     var maxMissCount: Int = 0
     var cellCache: [Int: [UICollectionViewLayoutAttributes]] = [:]
     var headerCache: [Int: UICollectionViewLayoutAttributes] = [:]
@@ -127,7 +127,7 @@ open class JTAppleCalendarLayout: UICollectionViewLayout, JTAppleCalendarLayoutP
             for numberOfDaysInCurrentSection in aMonth.sections {
                 // Generate and cache the headers
                 let sectionIndexPath = IndexPath(item: 0, section: section)
-                if let aHeaderAttr = layoutAttributesForSupplementaryView(ofKind: UICollectionElementKindSectionHeader, at: sectionIndexPath) {
+                if let aHeaderAttr = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: sectionIndexPath) {
                         headerCache[section] = aHeaderAttr
                         if strictBoundaryRulesShouldApply {
                             contentWidth += aHeaderAttr.frame.width + testVal
@@ -198,7 +198,7 @@ open class JTAppleCalendarLayout: UICollectionViewLayout, JTAppleCalendarLayoutP
                 // Generate and cache the headers
                 let sectionIndexPath = IndexPath(item: 0, section: section)
                 if strictBoundaryRulesShouldApply {
-                    if let aHeaderAttr = layoutAttributesForSupplementaryView(ofKind: UICollectionElementKindSectionHeader, at: sectionIndexPath) {
+                    if let aHeaderAttr = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: sectionIndexPath) {
                         headerCache[section] = aHeaderAttr
                         yCellOffset += aHeaderAttr.frame.height
                         contentHeight += aHeaderAttr.frame.height
@@ -507,7 +507,7 @@ open class JTAppleCalendarLayout: UICollectionViewLayout, JTAppleCalendarLayoutP
 
             switch lastOffsetIndex.1 {
             case .supplementaryView:
-                if let headerAttr = layoutAttributesForSupplementaryView(ofKind: UICollectionElementKindSectionHeader, at: lastOffsetIndex.0) {
+                if let headerAttr = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: lastOffsetIndex.0) {
                     retval = scrollDirection == .horizontal ? CGPoint(x: headerAttr.frame.origin.x, y: 0) : CGPoint(x: 0, y: headerAttr.frame.origin.y)
                 }
             case .cell:

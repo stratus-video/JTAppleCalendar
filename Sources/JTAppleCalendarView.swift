@@ -58,13 +58,13 @@ open class JTAppleCalendarView: UIView {
     
     @available(*, deprecated: 6.1.2, message: "use 'scrollDirection' instead")
     /// The scroll direction of the sections in JTAppleCalendar.
-    open var direction: UICollectionViewScrollDirection {
+    open var direction: UICollectionView.ScrollDirection {
         set { scrollDirection = direction }
         get { return scrollDirection }
     }
     
     /// The scroll direction of the sections in JTAppleCalendar.
-    open var scrollDirection: UICollectionViewScrollDirection = .horizontal {
+    open var scrollDirection: UICollectionView.ScrollDirection = .horizontal {
         didSet {
             if oldValue == scrollDirection { return }
             calendarViewLayout.scrollDirection = scrollDirection
@@ -126,7 +126,7 @@ open class JTAppleCalendarView: UIView {
         frame = super.frame
     }
     
-    var lastIndexOffset: (IndexPath, UICollectionElementCategory)?
+    var lastIndexOffset: (IndexPath, UICollectionView.ElementCategory)?
     
     /// Informs when change in orientation
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -251,9 +251,9 @@ open class JTAppleCalendarView: UIView {
     open var scrollingMode: ScrollingMode = .stopAtEachCalendarFrameWidth {
         didSet {
             switch scrollingMode {
-            case .stopAtEachCalendarFrameWidth: calendarView.decelerationRate = UIScrollViewDecelerationRateFast
-            case .stopAtEach, .stopAtEachSection: calendarView.decelerationRate = UIScrollViewDecelerationRateFast
-            case .nonStopToSection, .nonStopToCell, .nonStopTo, .none: calendarView.decelerationRate = UIScrollViewDecelerationRateNormal
+            case .stopAtEachCalendarFrameWidth: calendarView.decelerationRate = UIScrollView.DecelerationRate.fast
+            case .stopAtEach, .stopAtEachSection: calendarView.decelerationRate = UIScrollView.DecelerationRate.fast
+            case .nonStopToSection, .nonStopToCell, .nonStopTo, .none: calendarView.decelerationRate = UIScrollView.DecelerationRate.normal
             }
             #if os(iOS)
                 switch scrollingMode {
@@ -338,7 +338,7 @@ open class JTAppleCalendarView: UIView {
         calendarView = cv
         calendarView.dataSource = self
         calendarView.delegate = self
-        calendarView.decelerationRate = UIScrollViewDecelerationRateFast
+        calendarView.decelerationRate = UIScrollView.DecelerationRate.fast
         calendarView.backgroundColor = UIColor.clear
         calendarView.showsHorizontalScrollIndicator = false
         calendarView.showsVerticalScrollIndicator = false
@@ -356,7 +356,7 @@ open class JTAppleCalendarView: UIView {
 
     func restoreSelectionStateForCellAtIndexPath(_ indexPath: IndexPath) {
         if theSelectedIndexPaths.contains(indexPath) {
-            calendarView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
+            calendarView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionView.ScrollPosition())
         }
     }
 
@@ -374,7 +374,7 @@ open class JTAppleCalendarView: UIView {
         return retval
     }
     
-    func scrollTo(indexPath: IndexPath, isAnimationEnabled: Bool, position: UICollectionViewScrollPosition, completionHandler: (() -> Void)?) {
+    func scrollTo(indexPath: IndexPath, isAnimationEnabled: Bool, position: UICollectionView.ScrollPosition, completionHandler: (() -> Void)?) {
         if let validCompletionHandler = completionHandler {
             delayedExecutionClosure.append(validCompletionHandler)
         }
@@ -488,7 +488,7 @@ open class JTAppleCalendarView: UIView {
         self.triggerScrollToDateDelegate = triggerScrollToDateDelegate
         let indexPath = IndexPath(item: 0, section: section)
         DispatchQueue.main.async {
-            if let attributes = self.calendarView.layoutAttributesForSupplementaryElement(ofKind: UICollectionElementKindSectionHeader, at: indexPath) {
+            if let attributes = self.calendarView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: indexPath) {
                 if let validHandler = completionHandler {
                     self.delayedExecutionClosure.append(validHandler)
                 }
@@ -650,7 +650,7 @@ open class JTAppleCalendarView: UIView {
         }
         
 
-        theSelectedDates = indexPathsToReselect.flatMap { return dateOwnerInfoFromPath($0)?.date }
+        theSelectedDates = indexPathsToReselect.compactMap { return dateOwnerInfoFromPath($0)?.date }
         theSelectedIndexPaths = indexPathsToReselect
     }
 
@@ -975,14 +975,14 @@ extension JTAppleCalendarView {
         let minIndices = minimumVisibleIndexPaths()
         switch (minIndices.headerIndex, minIndices.cellInfo.indexPath) {
         case (.some(let path), nil):
-            lastIndexOffset = (path, UICollectionElementCategory.supplementaryView)
+            lastIndexOffset = (path, UICollectionView.ElementCategory.supplementaryView)
         case (nil, .some(let path)):
-            lastIndexOffset = (path, UICollectionElementCategory.cell)
+            lastIndexOffset = (path, UICollectionView.ElementCategory.cell)
         case (.some(let hPath), (.some(let cPath))):
             if hPath <= cPath {
-                lastIndexOffset = (hPath, UICollectionElementCategory.supplementaryView)
+                lastIndexOffset = (hPath, UICollectionView.ElementCategory.supplementaryView)
             } else {
-                lastIndexOffset = (cPath, UICollectionElementCategory.cell)
+                lastIndexOffset = (cPath, UICollectionView.ElementCategory.cell)
             }
         default:
             break
@@ -1022,7 +1022,7 @@ extension JTAppleCalendarView {
             return []
         }
         if excludeHeaders == true {
-            return attributes.filter { $0.representedElementKind != UICollectionElementKindSectionHeader }
+            return attributes.filter { $0.representedElementKind != UICollectionView.elementKindSectionHeader }
         }
         return attributes
     }
